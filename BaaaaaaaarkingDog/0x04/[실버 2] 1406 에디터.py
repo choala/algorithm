@@ -7,12 +7,11 @@ prev = [-1 for _ in range(MAX)]
 
 unused = 1
 cursor = 0
-length = 0
 
 def traverse():
     target = next[0]
 
-    while target != -1:
+    while target != -1:    
         print(chr(data[target]), end="")
         target = next[target]
 
@@ -21,7 +20,7 @@ def insert(pos, char):
 
     data[unused] = ord(char)
     next[unused] = next[pos]
-    prev[unused] = pos
+    prev[unused] = pos                  
 
     next[pos] = unused
     if next[unused] != -1:
@@ -35,7 +34,6 @@ def delete(pos):
         prev[next[pos]] = prev[pos]
 
 text = input()
-length = len(text)
 for t in text:
     insert(cursor, t)
     cursor += 1
@@ -45,17 +43,15 @@ for _ in range(m):
     command = sys.stdin.readline().rstrip().split()
     
     if len(command) == 1:
-        if command[0] == "L" and cursor != 0:
-            cursor -= 1
-        elif command[0] == "D" and cursor + 1 <= length:
-            cursor += 1
-        elif command[0] == "B" and cursor != 0:
+        if command[0] == "L" and prev[cursor] != -1:
+            cursor = prev[cursor]
+        elif command[0] == "D" and next[cursor] != -1:
+            cursor = next[cursor]
+        elif command[0] == "B" and prev[cursor] != -1:
             delete(cursor)
-            cursor -= 1
-            length -= 1
+            cursor = prev[cursor]
     else:
         insert(cursor, command[1])
-        cursor += 1
-        length += 1
+        cursor = next[cursor]
 
 traverse()

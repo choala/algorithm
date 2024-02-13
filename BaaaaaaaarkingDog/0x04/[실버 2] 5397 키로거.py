@@ -57,7 +57,7 @@ for _ in range(case):
     
     for s in string:
         if s == "-":
-            if cursor != 0:
+            if prev[cursor] != -1:
                 delete(cursor)
                 cursor = prev[cursor]
         elif s == "<":

@@ -16,7 +16,7 @@ keep_finding = True
 
 # 수빈이와 동생의 시작점이 같은 경우
 if n == k:
-    is_finding = False
+    keep_finding = False
 
 while queue and keep_finding:
     x = queue.popleft()

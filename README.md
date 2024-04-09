@@ -1,7 +1,7 @@
 ## algorithm
 
 ### introduce
-✨ 알고리즘 공부 기록 레포
+> 알고리즘 공부 기록 레포
 
 ### contents
 |폴더명|설명|링크|

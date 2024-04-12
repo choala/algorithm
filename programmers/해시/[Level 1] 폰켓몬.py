@@ -1,5 +1,3 @@
-import itertools
-
 def solution(nums):
     selected = []
     

@@ -1,28 +1,23 @@
 n = int(input())
 tops = list(map(int, input().split()))
 
-receivers = []
+stack = []
 results = []
 
-for top in tops:
-    if receivers:
-        target = receivers[-1]
+for i, top in enumerate(tops):
+    while stack:
+        target = stack[-1]
 
-        while target < top:
-            receivers.pop()
-
-            if receivers:
-                target = receivers[-1]
-            else:
-                results.append(0)
-                break
-
-        if target >= top:
-            results.append(tops.index(target) + 1)
+        if target[0] < top:
+            stack.pop()
+        else:
+            results.append(target[1])
+            break
     else:
         results.append(0)
 
-    receivers.append(top)
+    stack.append((top, i + 1))
+    
 
 for result in results:
     print(result, end=' ')

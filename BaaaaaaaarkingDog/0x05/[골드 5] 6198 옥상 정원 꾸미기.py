@@ -6,25 +6,16 @@ n = int(input())
 buildings = [int(input()) for _ in range(n)]
 
 stack = []
-tmp = []
-results = []
+result = 0
 
-for i, building in enumerate(reversed(buildings)):
-    count = 0
-    tmp = stack.copy()
-    
-    while tmp:
-        target = tmp[-1]
-
-        if target < building:
-            tmp.pop()
-            count += 1
-        else:
-            results.append(count)
-            break
-    else:
-        results.append(count)
+for building in buildings:
+    while stack and stack[-1] <= building:
+        # building의 옥상을 보지 못하는 경우, stack에서 제거
+        # 즉, stack에는 building의 옥상을 볼 수 있는 케이스만 남게 됨
+        stack.pop()
 
     stack.append(building)
+    # buliding의 옥상을 볼 수 있는 케이스 중 자기 자신을 제외하고(-1) result에 더해줌
+    result += len(stack) - 1
 
-print(sum(results))
+print(result)

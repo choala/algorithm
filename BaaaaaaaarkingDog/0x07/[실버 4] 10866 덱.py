@@ -1,7 +1,9 @@
 import sys
 
+input = sys.stdin.readline
+
 MAX = 10005
-data = [-1 for _ in range(2 * MAX + 1)]
+data = [-1] * (2 * MAX + 1)
 head, tail = MAX, MAX
 
 def push_front(x):
@@ -17,54 +19,69 @@ def push_back(x):
     tail += 1
 
 def pop_front():
-    global head
+    global head, tail
 
-    if head != tail:
-        head += 1
-        return data[head - 1]
+    if head == tail:
+        print(-1)
     else:
-        return -1
+        print(data[head])
+        head += 1
 
 def pop_back():
-    global tail
+    global head, tail
 
-    if head != tail:
-        tail -= 1
-        return data[tail]
+    if head == tail:
+        print(-1)
     else:
-        return -1
+        print(data[tail - 1])
+        tail -= 1
+
+def size():
+    global head, tail
+
+    print(tail - head)
+
+def empty():
+    global head, tail
+
+    if head == tail:
+        print(1)
+    else:
+        print(0)
 
 def front():
-    global head
+    global head, tail
 
-    return data[head] if head != tail else -1
+    if head == tail:
+        print(-1)
+    else:
+        print(data[head])
 
 def back():
-    global tail
+    global head, tail
 
-    return data[tail - 1] if head != tail else -1
+    if head == tail:
+        print(-1)
+    else:
+        print(data[tail - 1])
 
 n = int(input())
-
 for _ in range(n):
-    command = sys.stdin.readline().strip().split()
+    command = input().split()
 
     if command[0] == "push_front":
         push_front(command[1])
     elif command[0] == "push_back":
         push_back(command[1])
     elif command[0] == "pop_front":
-        print(pop_front())
+        pop_front()
     elif command[0] == "pop_back":
-        print(pop_back())
+        pop_back()
     elif command[0] == "size":
-        print(tail - head)
+        size()
     elif command[0] == "empty":
-        if tail == head:
-            print(1)
-        else:
-            print(0)
+        empty()
     elif command[0] == "front":
-        print(front())
-    elif command[0] == "back":
-        print(back())
+        front()
+    else:
+        back()

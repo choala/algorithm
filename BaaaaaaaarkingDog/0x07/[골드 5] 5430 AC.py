@@ -14,7 +14,7 @@ for _ in range(t):
     is_reversed = False
 
     parsed = array[1:-1].split(',')
-    queue = deque(list(map(int, parsed))) if parsed[0].isdigit() else deque()
+    queue = deque(parsed) if parsed[0].isdigit() else deque()
 
     for command in p:
         # p는 10만보다 작거나 같음 > 'R'이 최대 10만 번 실행 가능하므로
@@ -38,7 +38,6 @@ for _ in range(t):
         if is_reversed:
             queue.reverse()
 
-        queue = list(map(str, queue))
         print(','.join(queue), end='')
         
         print(']')

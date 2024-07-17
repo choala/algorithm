@@ -8,55 +8,38 @@ t = int(input())
 for _ in range(t):
     p = input().rstrip()
     n = int(input())
-    a = input().rstrip()
-    
-    queue = deque()
+    array = input().rstrip()
 
-    # [x1,...,xn]에서 숫자만 추출 > queue에 저장
-    tmp = ''
-    for i in a:
-        if i.isdigit():
-            tmp += i
-        else:
-            if tmp:
-                queue.append(int(tmp))
-                tmp = ''
+    is_valid = True
+    is_reversed = False
 
-    # 'R'과 'D'에 따라 배열 처리
-    start_index = 0
-    end_index = n - 1
-    
+    parsed = array[1:-1].split(',')
+    queue = deque(list(map(int, parsed))) if parsed[0].isdigit() else deque()
+
     for command in p:
         # p는 10만보다 작거나 같음 > 'R'이 최대 10만 번 실행 가능하므로
         # 배열에 들어있는 수의 개수가 10만 개일 경우, 최대 100억 번의 연산이 수행됨
-        # 즉, 실제로 뒤집지 않고 뒤집는 것과 같은 효과를 낼 수 있는 방법이 필요
+        # 따라서 실제로 뒤집지 않고, 뒤집는 것과 같은 효과를 낼 수 있는 방법이 필요
         if command == 'R':
-            start_index, end_index = end_index, start_index
+            is_reversed = not is_reversed
         else:
-            if start_index != end_index:
-                if start_index < end_index:
-                    start_index += 1
+            if queue:
+                if is_reversed:
+                    queue.pop()
                 else:
-                    start_index -= 1
+                    queue.popleft()
             else:
+                is_valid = False
                 break
 
-    # 포맷에 맞게 출력
-    if start_index != end_index:
+    if is_valid:
         print('[', end='')
         
-        if start_index < end_index:
-            for i in range(start_index, end_index + 1):
-                if i == end_index:
-                    print(queue[i], end='')
-                else:
-                    print(queue[i], end=',')
-        else:
-            for i in range(start_index, end_index - 1, -1):
-                if i == end_index:
-                    print(queue[i], end='')
-                else:
-                    print(queue[i], end=',')
+        if is_reversed:
+            queue.reverse()
+
+        queue = list(map(str, queue))
+        print(','.join(queue), end='')
         
         print(']')
     else:

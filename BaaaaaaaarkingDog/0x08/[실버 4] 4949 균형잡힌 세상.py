@@ -2,43 +2,32 @@ import sys
 
 input = sys.stdin.readline
 
-results = []
+str = input().rstrip()
+stack = []
+isValid = True
 
-s = input().rstrip()
-while s != '.':
-    stack = []
-    index = 0
-    is_valid = True
-
-    while index < len(s):
-        if s[index] == '(' or s[index] == '[':
-            stack.append(s[index])
-        elif s[index] == ')' or s[index] == ']':
-            if stack:
-                top = stack[-1]
-
-                if top == '(' and s[index] == ')':
-                    stack.pop()
-                elif top == '[' and s[index] == ']':
-                    stack.pop()
-                else:
-                    is_valid = False
-                    break
+while str != '.':
+    for c in str:
+        if c == '(' or c == '[':
+            stack.append(c)
+        elif c == ')':
+            if stack and stack[-1] == '(':
+                stack.pop()
             else:
-                is_valid = False
+                isValid = False
+                break
+        elif c == ']':
+            if stack and stack[-1] == '[':
+                stack.pop()
+            else:
+                isValid = False
                 break
 
-        index += 1
-
-    if stack:
-        is_valid = False
-
-    if is_valid:
-        results.append("yes")
+    if not stack and isValid:
+        print("yes")
     else:
-        results.append("no")
+        print("no")
 
-    s = input().rstrip()
-
-for result in results:
-    print(result)
+    str = input().rstrip()
+    stack = []
+    isValid = True

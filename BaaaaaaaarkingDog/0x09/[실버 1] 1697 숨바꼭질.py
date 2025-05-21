@@ -1,40 +1,35 @@
+import sys
 from collections import deque
 
+input = sys.stdin.readline
+
+# 수빈이(n)와 동생(k)의 위치 입력받기
 n, k = map(int, input().split())
 
-# BFS 기본 세팅
-sec = [-1 for _ in range(200001)]
+# BFS 세팅
+pos = [-1 for _ in range(100001)]
+
 dx = [-1, 1, 2]
 
 queue = deque()
 
-# 수빈이의 시작점 큐에 삽입
-sec[n] = 0
+# 시작점(수빈이 위치) 설정
+pos[n] = 0
 queue.append(n)
 
-keep_finding = True
-
-# 수빈이와 동생의 시작점이 같은 경우
-if n == k:
-    keep_finding = False
-
-while queue and keep_finding:
+while queue and pos[k] == -1:
     x = queue.popleft()
 
-    for i in range(3):
-        if i <= 1:
-            nx = x + dx[i]
+    for dir in range(3):
+        nx = 0
+
+        if dx[dir] == 2:
+            nx = x * dx[dir]
         else:
-            nx = x * dx[i]
+            nx = x + dx[dir]
 
-        if nx >= 0 and nx < 200001:
-            # 해당 위치에 처음 도달하는 경우
-            if sec[nx] == -1:
-                sec[nx] = sec[x] + 1
-                queue.append(nx)
+        if nx >= 0 and nx < 100001 and pos[nx] == -1:
+            pos[nx] = pos[x] + 1
+            queue.append(nx)
 
-            # 해당 위치에 동생이 있는 경우
-            if nx == k:
-                keep_finding = False
-
-print(sec[k])
+print(pos[k])
